@@ -1,0 +1,50 @@
+name: Aktualizuj kalendarz
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wsei-calendar-sync
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Pobierz repozytorium
+        uses: actions/checkout@v4
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Pobierz plan i wygeneruj ICS
+        run: python update_calendar.py
+
+      - name: Miesięczny heartbeat
+        shell: bash
+        run: |
+          mkdir -p .state
+          date -u +'%Y-%m-01' > .state/heartbeat.txt
+
+      - name: Zapisz zmianę, jeśli plan się zmienił
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/plan.ics .state/heartbeat.txt; then
+            echo "Brak zmian w planie."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/plan.ics .state/heartbeat.txt
+          git commit -m "chore: aktualizacja kalendarza zajęć"
+          git push
