@@ -34,7 +34,22 @@ jobs:
       - name: Diagnostyka linku eksportu
         shell: bash
         run: |
-          curl -fsSL "https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079" | grep -n -E "WydrukTokuCsv|dD|dO|Data od|Data do" | head -80 || true
+          python - <<'PY'
+          from urllib.request import urlopen
+          html = urlopen("https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
+          needle = "WydrukTokuCsv"
+          pos = 0
+          found = False
+          while True:
+              pos = html.find(needle, pos)
+              if pos < 0:
+                  break
+              found = True
+              print("EXPORT-SNIPPET:", html[max(0, pos-500):pos+800].replace("\n", " "))
+              pos += len(needle)
+          if not found:
+              print("EXPORT-SNIPPET: brak literalnego WydrukTokuCsv w HTML")
+          PY
 
       - name: Pobierz plan i wygeneruj ICS
         run: python update_calendar.py
