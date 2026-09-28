@@ -116,18 +116,28 @@ def download_csv(course_id: int, start: date, end: date) -> str:
             course_id,
         )
 
-        # Callback DevExpress działa asynchronicznie. Link eksportu jest
-        # aktualizowany po jego zakończeniu.
-        def updated_export_href(d):
-            try:
-                href = d.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or ""
-                if href and href != initial_href:
-                    return href
-            except Exception:
-                return False
-            return False
+        # Callback DevExpress działa asynchronicznie. Sam link eksportu
+        # na tej stronie nie zawsze zmienia atrybut href, dlatego czekamy na
+        # zakończenie callbacku siatki, a następnie pobieramy eksport w tej
+        # samej sesji przeglądarki.
+        wait.until(
+            lambda d: not bool(
+                d.execute_script(
+                    "return (typeof gridViewPlanyTokow.InCallback === 'function') "
+                    "? gridViewPlanyTokow.InCallback() : false;"
+                )
+            )
+        )
 
-        href = wait.until(updated_export_href)
+        # Dajemy skryptom EndCallback krótki moment na aktualizację DOM.
+        import time
+        time.sleep(2)
+
+        href = driver.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or initial_href
+        grid_text = driver.find_element(By.ID, "gridViewPlanyTokow").text
+        print(f"Po callbacku: DataOd={driver.find_element(By.ID, 'DataOd_I').get_attribute('value')}, "
+              f"DataDo={driver.find_element(By.ID, 'DataDo_I').get_attribute('value')}, href={href}")
+        print("Fragment siatki:", grid_text[:1200].replace("\\n", " | "))
 
         # Pobieramy binarne CSV przez fetch() w tej samej sesji/przeglądarce,
         # żeby zachować stan callbacku/cookies. Wynik przekazujemy jako base64.
