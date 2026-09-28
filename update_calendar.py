@@ -296,6 +296,10 @@ def main() -> int:
 
     events = parse_plan(text, cfg.get("groups", []), cfg.get("subjects", []))
     if not events:
+        print("--- DEBUG: pierwsze linie pobranego CSV ---", file=sys.stderr)
+        for line in text.splitlines()[:40]:
+            print(line, file=sys.stderr)
+        print("--- KONIEC DEBUG ---", file=sys.stderr)
         raise RuntimeError(
             "Po odfiltrowaniu nie znaleziono żadnych Twoich zajęć. "
             "Nie nadpisuję istniejącego kalendarza."
