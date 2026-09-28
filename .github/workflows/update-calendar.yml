@@ -31,6 +31,11 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Diagnostyka linku eksportu
+        shell: bash
+        run: |
+          curl -fsSL "https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079" | grep -n -E "WydrukTokuCsv|dD|dO|Data od|Data do" | head -80 || true
+
       - name: Pobierz plan i wygeneruj ICS
         run: python update_calendar.py
 
