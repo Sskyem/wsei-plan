@@ -17,5 +17,6 @@
     "Kryptologia",
     "Zaawansowane usługi systemów linuxowych"
   ],
-  "output": "docs/plan.ics"
+  "output": "docs/plan.ics",
+  "rolling_days": 30
 }
