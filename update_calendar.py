@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 import hashlib
 import json
@@ -57,59 +58,121 @@ def extract_plan_dates(text: str) -> list[date]:
 
 
 def download_csv(course_id: int, start: date, end: date) -> str:
-    # Wirtualny Dziekanat bywa czuły na kulturę/format DateTime.
-    # Próbujemy kilka formatów i akceptujemy dopiero odpowiedź,
-    # która rzeczywiście zawiera daty z żądanego semestru.
-    formats = [
-        "%d.%m.%Y %H:%M:%S",
-        "%d.%m.%Y",
-        "%Y-%m-%d %H:%M:%S",
-        "%Y-%m-%d",
-        "%d/%m/%Y %H:%M:%S",
-        "%d/%m/%Y",
-        "%m/%d/%Y %H:%M:%S",
-        "%m/%d/%Y",
-    ]
-    attempts: list[dict[str, str]] = []
-    for fmt in formats:
-        attempts.append({"dO": start.strftime(fmt), "dD": end.strftime(fmt)})
-    # Ostateczny fallback na wypadek odwróconych nazw parametrów.
-    for fmt in formats:
-        attempts.append({"dO": end.strftime(fmt), "dD": start.strftime(fmt)})
+    """Pobiera CSV przez prawdziwy formularz strony.
 
-    last_error: Exception | None = None
-    seen_ranges: list[str] = []
+    Sam endpoint WydrukTokuCsv nie honoruje arbitralnego zakresu dat, dopóki
+    zakres nie zostanie ustawiony przez callback siatki DevExpress. Dlatego
+    wykonujemy ten sam callback co przycisk "Szukaj" w przeglądarce, a potem
+    pobieramy CSV z aktualnego linku eksportu w tej samej sesji.
+    """
+    try:
+        from selenium import webdriver
+        from selenium.webdriver.common.by import By
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.support.ui import WebDriverWait
+    except ImportError as exc:
+        raise RuntimeError("Brak biblioteki selenium. Zainstaluj ją przed uruchomieniem.") from exc
 
-    for params in attempts:
-        url = f"{BASE}{CSV_PATH.format(course_id=course_id)}?{urlencode(params)}"
-        req = Request(
-            url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (compatible; WSEI-calendar/1.1)",
-                "Accept": "text/csv,application/csv,text/plain,*/*;q=0.8",
-            },
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1440,1200")
+
+    driver = webdriver.Chrome(options=options)
+    driver.set_page_load_timeout(45)
+    driver.set_script_timeout(45)
+
+    try:
+        page_url = f"{BASE}/Plany/PlanyTokow/{course_id}"
+        driver.get(page_url)
+
+        wait = WebDriverWait(driver, 30)
+        wait.until(
+            lambda d: d.execute_script(
+                "return typeof MVCxDataOd !== 'undefined' "
+                "&& typeof MVCxDataDo !== 'undefined' "
+                "&& typeof gridViewPlanyTokow !== 'undefined' "
+                "&& typeof FiltrujDane === 'function';"
+            )
         )
-        try:
-            with urlopen(req, timeout=30) as response:
-                raw = response.read()
-            text = decode_csv(raw)
-            dates = extract_plan_dates(text)
-            if dates:
-                seen_ranges.append(f"{params} -> {min(dates)}..{max(dates)}")
-                if any(start <= d <= end for d in dates):
-                    print(f"Wybrany format dat: {params}; zakres odpowiedzi {min(dates)}..{max(dates)}")
-                    return text
-        except Exception as exc:
-            last_error = exc
 
-    if seen_ranges:
-        raise RuntimeError(
-            "Serwer odpowiada, ale żaden format nie zwrócił dat z żądanego semestru. "
-            + " | ".join(seen_ranges[:8])
+        selector = 'a[href*="WydrukTokuCsv"]'
+        initial_href = driver.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or ""
+
+        driver.execute_script(
+            """
+            MVCxDataOd.SetDate(new Date(arguments[0], arguments[1], arguments[2]));
+            MVCxDataDo.SetDate(new Date(arguments[3], arguments[4], arguments[5]));
+            FiltrujDane(gridViewPlanyTokow, arguments[6]);
+            """,
+            start.year,
+            start.month - 1,
+            start.day,
+            end.year,
+            end.month - 1,
+            end.day,
+            course_id,
         )
-    if last_error:
-        raise RuntimeError(f"Nie udało się pobrać planu: {last_error}") from last_error
-    raise RuntimeError("Serwer zwrócił CSV, ale bez danych planu.")
+
+        # Callback DevExpress działa asynchronicznie. Link eksportu jest
+        # aktualizowany po jego zakończeniu.
+        def updated_export_href(d):
+            try:
+                href = d.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or ""
+                if href and href != initial_href:
+                    return href
+            except Exception:
+                return False
+            return False
+
+        href = wait.until(updated_export_href)
+
+        # Pobieramy binarne CSV przez fetch() w tej samej sesji/przeglądarce,
+        # żeby zachować stan callbacku/cookies. Wynik przekazujemy jako base64.
+        encoded = driver.execute_async_script(
+            """
+            const url = arguments[0];
+            const done = arguments[arguments.length - 1];
+            fetch(url, { credentials: 'same-origin', cache: 'no-store' })
+              .then(r => {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.arrayBuffer();
+              })
+              .then(buf => {
+                const bytes = new Uint8Array(buf);
+                let binary = '';
+                const chunk = 0x8000;
+                for (let i = 0; i < bytes.length; i += chunk) {
+                  binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+                }
+                done('OK:' + btoa(binary));
+              })
+              .catch(e => done('ERR:' + String(e)));
+            """,
+            href,
+        )
+
+        if not isinstance(encoded, str) or encoded.startswith("ERR:"):
+            raise RuntimeError(f"Nie udało się pobrać CSV po callbacku: {encoded}")
+
+        raw = base64.b64decode(encoded.removeprefix("OK:"))
+        text = decode_csv(raw)
+        dates = extract_plan_dates(text)
+
+        if not dates:
+            raise RuntimeError(f"CSV nie zawiera żadnych dat zajęć. Link eksportu: {href}")
+        if not any(start <= d <= end for d in dates):
+            raise RuntimeError(
+                f"CSV ma nieprawidłowy zakres {min(dates)}..{max(dates)}; "
+                f"oczekiwano {start}..{end}. Link eksportu: {href}"
+            )
+
+        print(f"Pobrano CSV z zakresu {min(dates)}..{max(dates)} przez {href}")
+        return text
+    finally:
+        driver.quit()
 
 
 def canonical_subject(raw: str) -> str:
