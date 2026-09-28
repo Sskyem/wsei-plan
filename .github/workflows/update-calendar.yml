@@ -31,23 +31,20 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Diagnostyka zakresu eksportu
+      - name: Diagnostyka formularza
         shell: bash
         run: |
           python - <<'PY'
           from urllib.request import urlopen
-          import re
-          urls = [
-              ("forward", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F01%2F2026%2000%3A00%3A00&dD=02%2F14%2F2027%2000%3A00%3A00"),
-              ("reverse", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=02%2F14%2F2027%2000%3A00%3A00&dD=10%2F01%2F2026%2000%3A00%3A00"),
-              ("oct-forward", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F01%2F2026%2000%3A00%3A00&dD=10%2F18%2F2026%2000%3A00%3A00"),
-              ("oct-reverse", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F18%2F2026%2000%3A00%3A00&dD=10%2F01%2F2026%2000%3A00%3A00"),
-          ]
-          for name, url in urls:
-              raw = urlopen(url, timeout=30).read()
-              text = raw.decode("cp1250", "replace")
-              dates = re.findall(r"Data Zajec:\s*(\d{4}\.\d{2}\.\d{2})", text)
-              print("RANGE-TEST", name, dates[:2], dates[-2:] if dates else [], "bytes", len(raw))
+          import re, html as htmllib
+          page = urlopen("https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
+          for needle in ["Data od:", "Data do:", "WydrukTokuCsv", "<form"]:
+              pos = page.find(needle)
+              print("FORM-SNIPPET", needle, "POS", pos)
+              if pos >= 0:
+                  snippet = page[max(0,pos-900):pos+1800]
+                  snippet = re.sub(r"data:image/[^\"']+", "[IMAGE]", snippet)
+                  print(snippet.replace("\r"," ").replace("\n"," "))
           PY
 
       - name: Pobierz plan i wygeneruj ICS
