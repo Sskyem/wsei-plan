@@ -36,17 +36,23 @@ jobs:
         run: |
           python - <<'PY'
           from urllib.request import urlopen
+          from urllib.parse import urljoin
           import re
           base = "https://harmonogram.krakow.ideis.pl"
           page = urlopen(base + "/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
-          scripts = re.findall(r'<script[^>]+src="([^"]*PlanyCommon[^"]*)"', page)
-          print("JS-SCRIPTS", scripts)
+          print("INLINE-POS", page.find("function FiltrujDane"), page.find("FiltrujDane ="), page.count("FiltrujDane"))
+          scripts = re.findall(r'<script[^>]+src="([^"]+)"', page)
+          print("SCRIPT-COUNT", len(scripts))
           for src in scripts:
-              js = urlopen(base + src.replace("&amp;","&"), timeout=30).read().decode("utf-8", "replace")
-              pos = js.find("FiltrujDane")
-              print("JS-FUNC-POS", pos)
-              if pos >= 0:
-                  print("JS-FUNC", js[max(0,pos-2000):pos+5000])
+              try:
+                  js = urlopen(urljoin(base, src.replace("&amp;","&")), timeout=30).read().decode("utf-8", "replace")
+              except Exception as e:
+                  print("SCRIPT-ERR", src, e)
+                  continue
+              if "FiltrujDane" in js:
+                  pos = js.find("FiltrujDane")
+                  print("FOUND-SCRIPT", src, "POS", pos)
+                  print("JS-FUNC", js[max(0,pos-2500):pos+7000])
           PY
 
       - name: Pobierz plan i wygeneruj ICS
