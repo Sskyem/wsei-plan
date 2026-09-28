@@ -11,7 +11,8 @@ import re
 import sys
 import unicodedata
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -415,8 +416,22 @@ def main() -> int:
     args = parser.parse_args()
 
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
-    start = date.fromisoformat(cfg["semester_start"])
-    end = date.fromisoformat(cfg["semester_end"])
+
+    semester_start = date.fromisoformat(cfg["semester_start"])
+    semester_end = date.fromisoformat(cfg["semester_end"])
+    rolling_days = int(cfg.get("rolling_days", 30))
+    tz = ZoneInfo(cfg.get("timezone", "Europe/Warsaw"))
+    today = datetime.now(tz).date()
+
+    # Ruchome okno: od dzisiaj do 30 dni naprzód, ale nie poza semestr.
+    start = max(today, semester_start)
+    end = min(today + timedelta(days=rolling_days), semester_end)
+
+    if start > semester_end:
+        print(f"Semestr zakończył się {semester_end}; pomijam aktualizację.")
+        return 0
+
+    print(f"Zakres sprawdzania: {start} — {end} ({rolling_days} dni do przodu od dzisiaj).")
 
     if args.input_file:
         text = decode_csv(Path(args.input_file).read_bytes())
