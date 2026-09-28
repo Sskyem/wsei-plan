@@ -31,24 +31,23 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Diagnostyka linku eksportu
+      - name: Diagnostyka zakresu eksportu
         shell: bash
         run: |
           python - <<'PY'
           from urllib.request import urlopen
-          html = urlopen("https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
-          needle = "WydrukTokuCsv"
-          pos = 0
-          found = False
-          while True:
-              pos = html.find(needle, pos)
-              if pos < 0:
-                  break
-              found = True
-              print("EXPORT-SNIPPET:", html[max(0, pos-500):pos+800].replace("\n", " "))
-              pos += len(needle)
-          if not found:
-              print("EXPORT-SNIPPET: brak literalnego WydrukTokuCsv w HTML")
+          import re
+          urls = [
+              ("forward", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F01%2F2026%2000%3A00%3A00&dD=02%2F14%2F2027%2000%3A00%3A00"),
+              ("reverse", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=02%2F14%2F2027%2000%3A00%3A00&dD=10%2F01%2F2026%2000%3A00%3A00"),
+              ("oct-forward", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F01%2F2026%2000%3A00%3A00&dD=10%2F18%2F2026%2000%3A00%3A00"),
+              ("oct-reverse", "https://harmonogram.krakow.ideis.pl/Plany/WydrukTokuCsv/1079?dO=10%2F18%2F2026%2000%3A00%3A00&dD=10%2F01%2F2026%2000%3A00%3A00"),
+          ]
+          for name, url in urls:
+              raw = urlopen(url, timeout=30).read()
+              text = raw.decode("cp1250", "replace")
+              dates = re.findall(r"Data Zajec:\s*(\d{4}\.\d{2}\.\d{2})", text)
+              print("RANGE-TEST", name, dates[:2], dates[-2:] if dates else [], "bytes", len(raw))
           PY
 
       - name: Pobierz plan i wygeneruj ICS
