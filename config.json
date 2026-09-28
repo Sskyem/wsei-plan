@@ -1,0 +1,21 @@
+{
+  "course_id": 1079,
+  "course_page": "https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079",
+  "semester_start": "2026-10-01",
+  "semester_end": "2027-02-14",
+  "timezone": "Europe/Warsaw",
+  "calendar_name": "WSEI — IS AI — III semestr",
+  "groups": [
+    "konw/2/IS-AI IIIsemN",
+    "lab/2/IS-AI IIIsemN",
+    "konw/2/IS-MGR IIIsemN"
+  ],
+  "subjects": [
+    "AI w biznesie",
+    "Firma symulacyjna",
+    "Głębokie sieci neuronowe",
+    "Kryptologia",
+    "Zaawansowane usługi systemów linuxowych"
+  ],
+  "output": "docs/plan.ics"
+}
