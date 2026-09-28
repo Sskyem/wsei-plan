@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WSEI — plan zajęć</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+    body { max-width: 760px; margin: 48px auto; padding: 0 20px; line-height: 1.55; }
+    .card { border: 1px solid #8885; border-radius: 16px; padding: 22px; }
+    .button { display: inline-block; padding: 12px 16px; border-radius: 10px; background: #2563eb; color: white; text-decoration: none; font-weight: 650; }
+    code { overflow-wrap: anywhere; }
+    .muted { opacity: .72; }
+  </style>
+</head>
+<body>
+  <h1>Plan zajęć — IS AI, III semestr</h1>
+  <div class="card">
+    <p>Kalendarz jest automatycznie generowany z planu Wirtualnego Dziekanatu i zawiera wyłącznie skonfigurowane grupy użytkownika.</p>
+    <p><a class="button" id="subscribe" href="plan.ics">Otwórz kalendarz ICS</a></p>
+    <p><strong>Adres ICS:</strong><br><code id="ics-url">plan.ics</code></p>
+  </div>
+  <p class="muted">Źródło: harmonogram.krakow.ideis.pl · aktualizacja przez GitHub Actions.</p>
+  <script>
+    const ics = new URL('plan.ics', window.location.href).href;
+    document.getElementById('ics-url').textContent = ics;
+    document.getElementById('subscribe').href = ics;
+  </script>
+</body>
+</html>
