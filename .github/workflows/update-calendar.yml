@@ -31,20 +31,22 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Diagnostyka formularza
+      - name: Diagnostyka JavaScript
         shell: bash
         run: |
           python - <<'PY'
           from urllib.request import urlopen
-          import re, html as htmllib
-          page = urlopen("https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
-          for needle in ["Data od:", "Data do:", "WydrukTokuCsv", "<form"]:
-              pos = page.find(needle)
-              print("FORM-SNIPPET", needle, "POS", pos)
+          import re
+          base = "https://harmonogram.krakow.ideis.pl"
+          page = urlopen(base + "/Plany/PlanyTokow/1079", timeout=30).read().decode("utf-8", "replace")
+          scripts = re.findall(r'<script[^>]+src="([^"]*PlanyCommon[^"]*)"', page)
+          print("JS-SCRIPTS", scripts)
+          for src in scripts:
+              js = urlopen(base + src.replace("&amp;","&"), timeout=30).read().decode("utf-8", "replace")
+              pos = js.find("FiltrujDane")
+              print("JS-FUNC-POS", pos)
               if pos >= 0:
-                  snippet = page[max(0,pos-900):pos+1800]
-                  snippet = re.sub(r"data:image/[^\"']+", "[IMAGE]", snippet)
-                  print(snippet.replace("\r"," ").replace("\n"," "))
+                  print("JS-FUNC", js[max(0,pos-2000):pos+5000])
           PY
 
       - name: Pobierz plan i wygeneruj ICS
