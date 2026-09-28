@@ -5,6 +5,7 @@ import argparse
 import base64
 import csv
 import hashlib
+import io
 import json
 import re
 import sys
@@ -58,12 +59,12 @@ def extract_plan_dates(text: str) -> list[date]:
 
 
 def download_csv(course_id: int, start: date, end: date) -> str:
-    """Pobiera CSV przez prawdziwy formularz strony.
+    """Pobiera plan przez prawdziwy callback DevExpress i odczytuje siatkę.
 
-    Sam endpoint WydrukTokuCsv nie honoruje arbitralnego zakresu dat, dopóki
-    zakres nie zostanie ustawiony przez callback siatki DevExpress. Dlatego
-    wykonujemy ten sam callback co przycisk "Szukaj" w przeglądarce, a potem
-    pobieramy CSV z aktualnego linku eksportu w tej samej sesji.
+    Eksport CSV ma statyczny href i nie odzwierciedla niestandardowego zakresu
+    ustawionego asynchronicznie. Sama siatka po callbacku zawiera jednak pełny,
+    aktualny plan, więc odczytujemy jej wiersze bezpośrednio z DOM i składamy
+    z nich wirtualny CSV zgodny z dalszym parserem.
     """
     try:
         from selenium import webdriver
@@ -78,11 +79,10 @@ def download_csv(course_id: int, start: date, end: date) -> str:
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1440,1200")
+    options.add_argument("--window-size=1440,1600")
 
     driver = webdriver.Chrome(options=options)
     driver.set_page_load_timeout(45)
-    driver.set_script_timeout(45)
 
     try:
         page_url = f"{BASE}/Plany/PlanyTokow/{course_id}"
@@ -97,9 +97,6 @@ def download_csv(course_id: int, start: date, end: date) -> str:
                 "&& typeof FiltrujDane === 'function';"
             )
         )
-
-        selector = 'a[href*="WydrukTokuCsv"]'
-        initial_href = driver.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or ""
 
         driver.execute_script(
             """
@@ -116,10 +113,7 @@ def download_csv(course_id: int, start: date, end: date) -> str:
             course_id,
         )
 
-        # Callback DevExpress działa asynchronicznie. Sam link eksportu
-        # na tej stronie nie zawsze zmienia atrybut href, dlatego czekamy na
-        # zakończenie callbacku siatki, a następnie pobieramy eksport w tej
-        # samej sesji przeglądarki.
+        # Czekamy aż callback DevExpress się zakończy.
         wait.until(
             lambda d: not bool(
                 d.execute_script(
@@ -129,57 +123,89 @@ def download_csv(course_id: int, start: date, end: date) -> str:
             )
         )
 
-        # Dajemy skryptom EndCallback krótki moment na aktualizację DOM.
         import time
         time.sleep(2)
 
-        href = driver.find_element(By.CSS_SELECTOR, selector).get_attribute("href") or initial_href
-        grid_text = driver.find_element(By.ID, "gridViewPlanyTokow").text
-        print(f"Po callbacku: DataOd={driver.find_element(By.ID, 'DataOd_I').get_attribute('value')}, "
-              f"DataDo={driver.find_element(By.ID, 'DataDo_I').get_attribute('value')}, href={href}")
-        print("Fragment siatki:", grid_text[:1200].replace("\\n", " | "))
+        grid = driver.find_element(By.ID, "gridViewPlanyTokow")
+        rows = grid.find_elements(By.CSS_SELECTOR, "tr")
 
-        # Pobieramy binarne CSV przez fetch() w tej samej sesji/przeglądarce,
-        # żeby zachować stan callbacku/cookies. Wynik przekazujemy jako base64.
-        encoded = driver.execute_async_script(
-            """
-            const url = arguments[0];
-            const done = arguments[arguments.length - 1];
-            fetch(url, { credentials: 'same-origin', cache: 'no-store' })
-              .then(r => {
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                return r.arrayBuffer();
-              })
-              .then(buf => {
-                const bytes = new Uint8Array(buf);
-                let binary = '';
-                const chunk = 0x8000;
-                for (let i = 0; i < bytes.length; i += chunk) {
-                  binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
-                }
-                done('OK:' + btoa(binary));
-              })
-              .catch(e => done('ERR:' + String(e)));
-            """,
-            href,
-        )
+        virtual_rows: list[list[str]] = [
+            [f"Plan dla toku: {course_id}", "", "", "", "", "", "", "", ""]
+        ]
+        current_date: str | None = None
+        data_count = 0
+        debug_rows: list[list[str]] = []
 
-        if not isinstance(encoded, str) or encoded.startswith("ERR:"):
-            raise RuntimeError(f"Nie udało się pobrać CSV po callbacku: {encoded}")
+        for tr in rows:
+            row_text = (tr.text or "").strip()
+            date_match = re.search(
+                r"(?:Date of Activities|Data Zaj(?:ę|e)ć):\s*(\d{4}\.\d{2}\.\d{2})",
+                row_text,
+                flags=re.IGNORECASE,
+            )
+            if date_match:
+                current_date = date_match.group(1)
+                virtual_rows.append([f"Data Zajec: {current_date}", "", "", "", "", "", "", "", ""])
+                continue
 
-        raw = base64.b64decode(encoded.removeprefix("OK:"))
-        text = decode_csv(raw)
+            if current_date is None:
+                continue
+
+            cells = [(cell.text or "").strip() for cell in tr.find_elements(By.XPATH, "./td")]
+            if not cells:
+                continue
+            if len(debug_rows) < 8:
+                debug_rows.append(cells)
+
+            # Kod grupy jest najbardziej stabilnym punktem odniesienia.
+            group_idx = next(
+                (
+                    i
+                    for i, value in enumerate(cells)
+                    if "/IS-" in value and re.search(r"semN\b", value, flags=re.IGNORECASE)
+                ),
+                None,
+            )
+            if group_idx is None:
+                continue
+
+            before = cells[:group_idx]
+            time_values = [v for v in before if re.fullmatch(r"\d{1,2}:\d{2}", v)]
+            if len(time_values) < 2:
+                continue
+
+            start_time, end_time = time_values[:2]
+            hours = before[-1] if before else ""
+            group = cells[group_idx]
+            subject = cells[group_idx + 1] if group_idx + 1 < len(cells) else ""
+            location = cells[group_idx + 3] if group_idx + 3 < len(cells) else ""
+            passing = cells[group_idx + 5] if group_idx + 5 < len(cells) else ""
+            notes = cells[group_idx + 7] if group_idx + 7 < len(cells) else ""
+
+            virtual_rows.append(
+                ["", start_time, end_time, hours, group, subject, location, passing, notes]
+            )
+            data_count += 1
+
+        if data_count == 0:
+            raise RuntimeError(f"Nie udało się odczytać wierszy siatki. Przykład komórek: {debug_rows!r}")
+
+        out = io.StringIO()
+        writer = csv.writer(out, delimiter=";", lineterminator="\n")
+        writer.writerows(virtual_rows)
+        text = out.getvalue()
+
         dates = extract_plan_dates(text)
-
-        if not dates:
-            raise RuntimeError(f"CSV nie zawiera żadnych dat zajęć. Link eksportu: {href}")
-        if not any(start <= d <= end for d in dates):
+        if not dates or not any(start <= d <= end for d in dates):
             raise RuntimeError(
-                f"CSV ma nieprawidłowy zakres {min(dates)}..{max(dates)}; "
-                f"oczekiwano {start}..{end}. Link eksportu: {href}"
+                f"Odczytana siatka ma nieprawidłowy zakres: "
+                f"{min(dates) if dates else 'brak'}..{max(dates) if dates else 'brak'}"
             )
 
-        print(f"Pobrano CSV z zakresu {min(dates)}..{max(dates)} przez {href}")
+        print(
+            f"Odczytano {data_count} wierszy planu z siatki; "
+            f"zakres {min(dates)}..{max(dates)}."
+        )
         return text
     finally:
         driver.quit()
