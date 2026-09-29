@@ -72,6 +72,7 @@ def download_csv(course_id: int, start: date, end: date) -> str:
         from selenium.webdriver.common.by import By
         from selenium.webdriver.chrome.options import Options
         from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.common.exceptions import TimeoutException
     except ImportError as exc:
         raise RuntimeError("Brak biblioteki selenium. Zainstaluj ją przed uruchomieniem.") from exc
 
@@ -81,15 +82,38 @@ def download_csv(course_id: int, start: date, end: date) -> str:
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1440,1600")
+    # Nie czekamy na wszystkie zasoby (np. obrazy/fonty). Do działania potrzebny
+    # jest DOM i JavaScript DevExpress; tryb "eager" jest odporniejszy na wolne
+    # odpowiedzi serwera uczelni.
+    options.page_load_strategy = "eager"
 
     driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(45)
+    driver.set_page_load_timeout(35)
 
     try:
         page_url = f"{BASE}/Plany/PlanyTokow/{course_id}"
-        driver.get(page_url)
 
-        wait = WebDriverWait(driver, 30)
+        # Harmonogram bywa chwilowo wolny. Pojedynczy timeout Chrome nie powinien
+        # wywracać całej synchronizacji, więc próbujemy załadować stronę ponownie.
+        import time
+        for attempt in range(1, 4):
+            try:
+                driver.get(page_url)
+                break
+            except TimeoutException:
+                print(
+                    f"Timeout podczas ładowania planu (próba {attempt}/3).",
+                    file=sys.stderr,
+                )
+                try:
+                    driver.execute_script("window.stop();")
+                except Exception:
+                    pass
+                if attempt == 3:
+                    raise
+                time.sleep(5)
+
+        wait = WebDriverWait(driver, 35)
         wait.until(
             lambda d: d.execute_script(
                 "return typeof MVCxDataOd !== 'undefined' "
@@ -124,7 +148,6 @@ def download_csv(course_id: int, start: date, end: date) -> str:
             )
         )
 
-        import time
         time.sleep(2)
 
         grid = driver.find_element(By.ID, "gridViewPlanyTokow")
