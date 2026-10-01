@@ -18,5 +18,5 @@
     "Zaawansowane usługi systemów linuxowych"
   ],
   "output": "docs/plan.ics",
-  "rolling_days": 30
+  "rolling_days": 90
 }
