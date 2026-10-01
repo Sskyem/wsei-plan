@@ -127,4 +127,290 @@ DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
+BEGIN:VEVENT
+UID:759e4d97dd68a6b179085253@wsei-calendar
+DTSTAMP:20261106T000000Z
+DTSTART;TZID=Europe/Warsaw:20261106T173000
+DTEND;TZID=Europe/Warsaw:20261106T190000
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:32825b31f497446b9463c14c@wsei-calendar
+DTSTAMP:20261106T000000Z
+DTSTART;TZID=Europe/Warsaw:20261106T191000
+DTEND;TZID=Europe/Warsaw:20261106T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:4e009a0c521bce6a28c66c2c@wsei-calendar
+DTSTAMP:20261107T000000Z
+DTSTART;TZID=Europe/Warsaw:20261107T095000
+DTEND;TZID=Europe/Warsaw:20261107T120500
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Praga
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6408c6f75307439086b2d679@wsei-calendar
+DTSTAMP:20261108T000000Z
+DTSTART;TZID=Europe/Warsaw:20261108T081000
+DTEND;TZID=Europe/Warsaw:20261108T111000
+SUMMARY:Zaawansowane usługi systemów linuxowych
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7005170b32d8b83da3e305a5@wsei-calendar
+DTSTAMP:20261108T000000Z
+DTSTART;TZID=Europe/Warsaw:20261108T113000
+DTEND;TZID=Europe/Warsaw:20261108T143000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:22486db9e776ee56db036053@wsei-calendar
+DTSTAMP:20261120T000000Z
+DTSTART;TZID=Europe/Warsaw:20261120T173000
+DTEND;TZID=Europe/Warsaw:20261120T190000
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:fadf7160cad639c37d44f246@wsei-calendar
+DTSTAMP:20261120T000000Z
+DTSTART;TZID=Europe/Warsaw:20261120T191000
+DTEND;TZID=Europe/Warsaw:20261120T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6bc9e661d996a49744696b3c@wsei-calendar
+DTSTAMP:20261121T000000Z
+DTSTART;TZID=Europe/Warsaw:20261121T095000
+DTEND;TZID=Europe/Warsaw:20261121T120500
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Praga
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:8011c15b8056da7804d6fd6c@wsei-calendar
+DTSTAMP:20261121T000000Z
+DTSTART;TZID=Europe/Warsaw:20261121T121500
+DTEND;TZID=Europe/Warsaw:20261121T151500
+SUMMARY:Firma symulacyjna
+LOCATION:Meksyk
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7dbf31bd9f4d1e02a7da1ca6@wsei-calendar
+DTSTAMP:20261121T000000Z
+DTSTART;TZID=Europe/Warsaw:20261121T162000
+DTEND;TZID=Europe/Warsaw:20261121T175000
+SUMMARY:AI w biznesie
+LOCATION:Paryż
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:468e6f5a1592692e4abf7775@wsei-calendar
+DTSTAMP:20261122T000000Z
+DTSTART;TZID=Europe/Warsaw:20261122T081000
+DTEND;TZID=Europe/Warsaw:20261122T111000
+SUMMARY:Kryptologia
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:188a0b0cf7d97af15ecc307d@wsei-calendar
+DTSTAMP:20261204T000000Z
+DTSTART;TZID=Europe/Warsaw:20261204T173000
+DTEND;TZID=Europe/Warsaw:20261204T190000
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:2c95bf5ada2497fb4a3108ef@wsei-calendar
+DTSTAMP:20261204T000000Z
+DTSTART;TZID=Europe/Warsaw:20261204T191000
+DTEND;TZID=Europe/Warsaw:20261204T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:db9d8a584bd66c266fb7b7b2@wsei-calendar
+DTSTAMP:20261205T000000Z
+DTSTART;TZID=Europe/Warsaw:20261205T162000
+DTEND;TZID=Europe/Warsaw:20261205T175000
+SUMMARY:AI w biznesie
+LOCATION:Paryż
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:c98f78d3027e8dd9854f78a6@wsei-calendar
+DTSTAMP:20261206T000000Z
+DTSTART;TZID=Europe/Warsaw:20261206T081500
+DTEND;TZID=Europe/Warsaw:20261206T120000
+SUMMARY:Kryptologia
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:a5f046b42cacf26cffab1986@wsei-calendar
+DTSTAMP:20261206T000000Z
+DTSTART;TZID=Europe/Warsaw:20261206T121500
+DTEND;TZID=Europe/Warsaw:20261206T151500
+SUMMARY:Firma symulacyjna
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:004be41a4cfce9415b06e06e@wsei-calendar
+DTSTAMP:20261218T000000Z
+DTSTART;TZID=Europe/Warsaw:20261218T173000
+DTEND;TZID=Europe/Warsaw:20261218T190000
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:3778204b83156550dfaed642@wsei-calendar
+DTSTAMP:20261218T000000Z
+DTSTART;TZID=Europe/Warsaw:20261218T191000
+DTEND;TZID=Europe/Warsaw:20261218T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:95f97024b44a276f3ab4c9e1@wsei-calendar
+DTSTAMP:20261219T000000Z
+DTSTART;TZID=Europe/Warsaw:20261219T130000
+DTEND;TZID=Europe/Warsaw:20261219T143000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6102f44b4cc7ebf547968dfa@wsei-calendar
+DTSTAMP:20261219T000000Z
+DTSTART;TZID=Europe/Warsaw:20261219T162000
+DTEND;TZID=Europe/Warsaw:20261219T175000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:fa7f31b144478d5af0b4f29a@wsei-calendar
+DTSTAMP:20261220T000000Z
+DTSTART;TZID=Europe/Warsaw:20261220T081000
+DTEND;TZID=Europe/Warsaw:20261220T111000
+SUMMARY:Zaawansowane usługi systemów linuxowych
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:4e59be2f4071b24dc5c4df5f@wsei-calendar
+DTSTAMP:20261220T000000Z
+DTSTART;TZID=Europe/Warsaw:20261220T112000
+DTEND;TZID=Europe/Warsaw:20261220T125000
+SUMMARY:Firma symulacyjna
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
 END:VCALENDAR
