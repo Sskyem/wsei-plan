@@ -24,32 +24,6 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:f29279d6cc0ccaad24a261db@wsei-calendar
-DTSTAMP:20261016T000000Z
-DTSTART;TZID=Europe/Warsaw:20261016T173000
-DTEND;TZID=Europe/Warsaw:20261016T190000
-SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
-LOCATION:Teams (online)
-DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
- i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
- 079
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:42cf3a8a20370fddc7acea11@wsei-calendar
-DTSTAMP:20261016T000000Z
-DTSTART;TZID=Europe/Warsaw:20261016T191000
-DTEND;TZID=Europe/Warsaw:20261016T204000
-SUMMARY:AI w biznesie
-LOCATION:Teams (online)
-DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
- i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
- 079
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
 UID:873d72d3180e9060d859243d@wsei-calendar
 DTSTAMP:20261017T000000Z
 DTSTART;TZID=Europe/Warsaw:20261017T095000
@@ -371,6 +345,32 @@ LOCATION:Teams (online)
 DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
  gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
  1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:764426b7eedefb04084fabac@wsei-calendar
+DTSTAMP:20270115T000000Z
+DTSTART;TZID=Europe/Warsaw:20270115T173000
+DTEND;TZID=Europe/Warsaw:20270115T190000
+SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6b33472818c2fbc45bb8d2a3@wsei-calendar
+DTSTAMP:20270115T000000Z
+DTSTART;TZID=Europe/Warsaw:20270115T191000
+DTEND;TZID=Europe/Warsaw:20270115T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
