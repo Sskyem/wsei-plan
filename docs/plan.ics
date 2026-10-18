@@ -24,19 +24,6 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:c31bf7dd95b0c024cf51c9a4@wsei-calendar
-DTSTAMP:20261018T000000Z
-DTSTART;TZID=Europe/Warsaw:20261018T081000
-DTEND;TZID=Europe/Warsaw:20261018T111000
-SUMMARY:Kryptologia
-LOCATION:Teams (online)
-DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
- gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
- 1079
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
 UID:759e4d97dd68a6b179085253@wsei-calendar
 DTSTAMP:20261106T000000Z
 DTSTART;TZID=Europe/Warsaw:20261106T173000
@@ -358,6 +345,32 @@ LOCATION:Praga
 DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
  : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
  79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:6f51c15d52b84509030591f7@wsei-calendar
+DTSTAMP:20270117T000000Z
+DTSTART;TZID=Europe/Warsaw:20270117T081500
+DTEND;TZID=Europe/Warsaw:20270117T120000
+SUMMARY:Kryptologia
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:7e25c13901dc510f87a265c7@wsei-calendar
+DTSTAMP:20270117T000000Z
+DTSTART;TZID=Europe/Warsaw:20270117T121500
+DTEND;TZID=Europe/Warsaw:20270117T151500
+SUMMARY:Firma symulacyjna
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
