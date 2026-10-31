@@ -374,4 +374,17 @@ DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
+BEGIN:VEVENT
+UID:c567cf9d7b60e361ce733512@wsei-calendar
+DTSTAMP:20270129T000000Z
+DTSTART;TZID=Europe/Warsaw:20270129T191000
+DTEND;TZID=Europe/Warsaw:20270129T204000
+SUMMARY:AI w biznesie
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
+ i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
+ 079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
 END:VCALENDAR
