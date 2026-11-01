@@ -387,4 +387,17 @@ DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
+BEGIN:VEVENT
+UID:3f69dcc27ce17eed3567b8ac@wsei-calendar
+DTSTAMP:20270130T000000Z
+DTSTART;TZID=Europe/Warsaw:20270130T162000
+DTEND;TZID=Europe/Warsaw:20270130T175000
+SUMMARY:AI w biznesie
+LOCATION:Praga
+DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
+ : Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/10
+ 79
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
 END:VCALENDAR
