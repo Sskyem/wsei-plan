@@ -400,4 +400,30 @@ DESCRIPTION:Grupa: lab/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwagi
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
+BEGIN:VEVENT
+UID:3dba184ad2e74426ea6f7ad7@wsei-calendar
+DTSTAMP:20270131T000000Z
+DTSTART;TZID=Europe/Warsaw:20270131T084500
+DTEND;TZID=Europe/Warsaw:20270131T110000
+SUMMARY:Zaawansowane usługi systemów linuxowych
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:051822a8146b89f4b860c923@wsei-calendar
+DTSTAMP:20270131T000000Z
+DTSTART;TZID=Europe/Warsaw:20270131T121500
+DTEND;TZID=Europe/Warsaw:20270131T151500
+SUMMARY:Firma symulacyjna
+LOCATION:Teams (online)
+DESCRIPTION:Grupa: konw/2/IS-MGR IIIsemN\nZaliczenie: Zaliczenie ocena\nUwa
+ gi: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/
+ 1079
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
 END:VCALENDAR
