@@ -24,32 +24,6 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:759e4d97dd68a6b179085253@wsei-calendar
-DTSTAMP:20261106T000000Z
-DTSTART;TZID=Europe/Warsaw:20261106T173000
-DTEND;TZID=Europe/Warsaw:20261106T190000
-SUMMARY:Głębokie sieci neuronowe (Deep Learning) – projekt
-LOCATION:Teams (online)
-DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
- i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
- 079
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:32825b31f497446b9463c14c@wsei-calendar
-DTSTAMP:20261106T000000Z
-DTSTART;TZID=Europe/Warsaw:20261106T191000
-DTEND;TZID=Europe/Warsaw:20261106T204000
-SUMMARY:AI w biznesie
-LOCATION:Teams (online)
-DESCRIPTION:Grupa: konw/2/IS-AI IIIsemN\nZaliczenie: Zaliczenie ocena\nUwag
- i: Lack\nŹródło: https://harmonogram.krakow.ideis.pl/Plany/PlanyTokow/1
- 079
-STATUS:CONFIRMED
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
 UID:4e009a0c521bce6a28c66c2c@wsei-calendar
 DTSTAMP:20261107T000000Z
 DTSTART;TZID=Europe/Warsaw:20261107T095000
